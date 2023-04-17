@@ -1,5 +1,4 @@
 {
   "TELEGRAM_TOKEN": "",
-  "OPENAI_KEY": "",
-  "TEST_ENV": "dev"
+  "OPENAI_KEY": ""
 }
