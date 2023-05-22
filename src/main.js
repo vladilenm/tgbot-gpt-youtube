@@ -27,6 +27,9 @@ bot.on(message('voice'), async (ctx) => {
     removeFile(oggPath)
 
     const text = await openai.transcription(mp3Path)
+
+    removeFile(mp3Path)
+
     await ctx.reply(code(`Ваш запрос: ${text}`))
 
     await processTextToChat(ctx, text)
