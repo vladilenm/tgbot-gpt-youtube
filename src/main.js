@@ -6,6 +6,7 @@ import { ogg } from './ogg.js'
 import { openai } from './openai.js'
 import { removeFile } from './utils.js'
 import { initCommand, processTextToChat, INITIAL_SESSION } from './logic.js'
+import { tgIdInWhiteList } from './tgsids.whitelist.js'
 
 const bot = new Telegraf(config.get('TELEGRAM_TOKEN'))
 
@@ -16,6 +17,10 @@ bot.command('new', initCommand)
 bot.command('start', initCommand)
 
 bot.on(message('voice'), async (ctx) => {
+  if (!tgIdInWhiteList(ctx.update.message.from.id)) {
+    return;
+  }
+
   ctx.session ??= INITIAL_SESSION
   try {
     await ctx.reply(code('Сообщение принял. Жду ответ от сервера...'))
@@ -36,6 +41,10 @@ bot.on(message('voice'), async (ctx) => {
 })
 
 bot.on(message('text'), async (ctx) => {
+  if (!tgIdInWhiteList(ctx.update.message.from.id)) {
+    return;
+  }
+
   ctx.session ??= INITIAL_SESSION
   try {
     await ctx.reply(code('Сообщение принял. Жду ответ от сервера...'))
