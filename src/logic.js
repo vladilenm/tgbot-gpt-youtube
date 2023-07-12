@@ -1,10 +1,16 @@
 import { openai } from './openai.js'
 
+import { tgIdInWhiteList } from './tgsids.whitelist.js'
+
 export const INITIAL_SESSION = {
   messages: [],
 }
 
 export async function initCommand(ctx) {
+  if (!tgIdInWhiteList(ctx.update.message.from.id)) {
+    return;
+  }
+
   ctx.session = { ...INITIAL_SESSION }
   await ctx.reply('Жду вашего голосового или текстового сообщения')
 }
